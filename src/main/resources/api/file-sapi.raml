@@ -1,0 +1,28 @@
+#%RAML 1.0
+title: file-sapi
+baseUri: http://{host}:{port}/api
+description: API que sirve para subir documentos a Salesforce
+securitySchemes:
+  basic:
+    type: Basic Authentication
+securedBy: [basic]
+protocols: [http]
+traits:
+  hasHeaders: !include traits/hasHeaders.raml
+  responses: !include traits/responses.raml
+
+/file/upload:
+  post:
+    description: Sirve para subir archivos a Salesforce
+    displayName: Upload File
+    is:
+      - hasHeaders
+      - responses
+    body:
+      multipart/form-data:
+        type: !include dataTypes/contentDocumentUpload.raml
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include examples/hi.json
